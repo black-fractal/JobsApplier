@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Generate CV {% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="center-block rounded"
+             style="width:50vw;display:table;padding: 10px;margin: 10vh auto;background-color:#edffe1;">
+            <h2>CV</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="username">Linkedin Username: </label><input name="username" id="username">
+                <button class="btn btn-success" type="submit">Generate</button>
+            </form>
+        <h2>Skills:</h2>
+            {% if skills %}
+                {% for skill in skills %}
+                    <p>{{ skill }}</p>
+                {% endfor %}
+            {% endif %}
+        <br>
+        <h2>Educations:</h2>
+            {% if educations %}
+                {% for education in educations %}
+                    <p>{{ education }}</p>
+                {% endfor %}
+            {% endif %}
+            <br>
+        <h2>Experiences:</h2>
+            {% if experiences %}
+                {% for experience in experiences %}
+                    <p>{{ experience }}</p>
+                {% endfor %}
+            {% endif %}
+            <br>
+
+        </div>
+    </div>
+{% endblock %}

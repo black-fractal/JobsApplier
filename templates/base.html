@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+    <style>
+        body {
+            direction: ltr;
+            font-family: "tahoma", serif;
+            text-align: left;
+        {% load static %} background: url("{% static 'images/background.png' %}") center;
+            min-height: 100vh;
+        }
+    </style>
+    <title>{% block title %}Najimi{% endblock %}</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Job Applier</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+            </li>
+            {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}">Register</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+{#                    <a class="nav-link" href="{% url 'post' %}">Make CV</a>#}
+                    <a class="nav-link" href="{% url 'login' %}">Generate CV</a>
+                </li>
+                <li class="nav-item">
+{#                    <a class="nav-link" href="{% url 'post' %}">Make CV</a>#}
+                    <a class="nav-link" href="{% url 'login' %}">Generate Motivation Letter</a>
+                </li>
+            {% endif %}
+        </ul>
+        {% if user.is_authenticated %}
+{#            <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'search' %}">#}
+            <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'login' %}">
+                <input id="id_search" class="form-control mr-sm-2" type="search" placeholder="Search"
+                       aria-label="Search" name="id_search" value="">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                {% csrf_token %}
+            </form>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'login' %}">Profile</a>
+{#                        <a class="dropdown-item" href="{% url 'user' %}">Profile</a>#}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+</nav>
+{% block content %}
+{% endblock %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var elements = document.getElementsByTagName("INPUT");
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].oninvalid = function (e) {
+                e.target.setCustomValidity("");
+                if (!e.target.validity.valid) {
+                    e.target.setCustomValidity("Please enter an input here!");
+                }
+            };
+            elements[i].oninput = function (e) {
+                e.target.setCustomValidity("");
+            };
+        }
+    })
+</script>
+</body>
+</html>
